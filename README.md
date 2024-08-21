@@ -22,7 +22,7 @@
 - [📝 License](#license)
 
 # 📖 Timetable  <a name="about-project"></a>
-*[Timetable]* Dynamic and user-friendly Course Schedule Dashboard is a school automation where we leverage the power of Asp.Net Core for back-end features and React for front-end Dashboard, all presented with a stylish and modern design courtesy of Tailwind CSS.
+*[Timetable]* Dynamic and user-friendly Timetable Board is a school automation system developed with ASP.NET Core and Entity Framework in the backend and presented with a modern design using React and Tailwind CSS in the frontend. This system makes it easy to manage timetables and provides a stylish and user-friendly interface.
 
 
 
