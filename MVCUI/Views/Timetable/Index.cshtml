@@ -1,0 +1,196 @@
+﻿@model List<Entities.DTOs.TimetableDto>
+
+@{
+    int totalHors = 0;
+    int totalDay = 0;
+    int totalLessonDuration = 0;
+    int totalBreakDuration = 0;
+    int totalLunchBreakDuration = 0;
+    String totalStartTime="";
+    if (ViewBag.setting != null)
+    {
+        totalHors = ViewBag.setting.DailyHours;
+        totalDay = ViewBag.setting.WeeklyDays;
+        totalLessonDuration = ViewBag.setting.LessonDuration;
+        totalBreakDuration = ViewBag.setting.BreakDuration;
+        totalLunchBreakDuration = ViewBag.setting.LunchBreakDuration;
+        totalStartTime = ViewBag.setting.StartTime.ToString();
+    }
+
+    ViewData["Title"] = "Timetables";
+    var listes = Model;
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Time Table</h1>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Schedule Setting</h5>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @ViewBag.Message
+                </div>
+            }
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <!-- Multi Columns Form -->
+            <div class="row g-3">
+                <form asp-action="ScheduleSetting" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="DailyHours" class="form-label">Daily Hours</label>
+                            <input min="4" max="7" value="@totalHors" type="number" id="DailyHours" name="DailyHours" class="form-control" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="WeeklyDays" class="form-label">Weekly Days</label>
+                            <input min="1" max="7" value="@totalDay" type="number" id="WeeklyDays" name="WeeklyDays" class="form-control" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="LessonDuration" class="form-label">Courses Duration</label>
+                            <input min="5" max="100" value="@totalLessonDuration" type="number" id="LessonDuration" name="LessonDuration" class="form-control" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="BreakDuration" class="form-label">Break Duration</label>
+                            <input min="5" max="100" value="@totalBreakDuration" type="number" id="BreakDuration" name="BreakDuration" class="form-control" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="LunchBreakDuration" class="form-label">Lunch Break Duration</label>
+                            <input min="5" max="60" value="@totalLunchBreakDuration" type="number" id="LunchBreakDuration" name="LunchBreakDuration" class="form-control" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputTime" class="form-label">Start Time</label>
+                            <input type="time" value="@totalStartTime" id="StartTime" name="StartTime" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="LunchBreak" value="true" name="LunchBreak">
+                                <label class="form-check-label" for="LunchBreak">
+                                    Lunch Break
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary me-5">Setting Update</button>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div><!-- End Multi Columns Form -->
+
+        </div>
+    </div>
+    <div class="row card m-0 mb-2">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="form-group row">
+                @Html.Label("selectedValue", "Class", new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("selectedValue", ViewBag.Options as SelectList, "Select..", new { @class = "form-control mt-2 mb-2" })
+                </div>
+                <div class="col-md-2 d-flex align-items-center">
+                    <a class="btn btn-success form-control ml-2">Class Page</a>
+                </div>
+            </div>
+            <div class="d-inline-flex">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 mb-1 me-5">
+                        <button type="submit" style="height:40px" class="btn btn-primary">Done</button>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="d-inline-flex">
+            <form asp-action="Add" method="post">
+                <button type="submit" class="btn btn-success mb-1 me-2 " style="height:40px">Create Timetable</button>
+            </form>
+            <form asp-action="Delete" method="post">
+                <button type="submit" class="btn btn-danger mb-1 text-end" style="height:40px">Deleted Timetable</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            @{
+                if (Model == null || Model.Count <= 0)
+                {
+
+                    <h1>Bi veri bulunmamaktadır.</h1>
+                }
+                else
+                {
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Gün</th>
+                                @for (int i = 0; i < totalHors; i++)
+                                {
+                                    <th scope="col">
+                                        @listes.FindAll(x => x.Day == "Pazartesi").OrderBy(x => x.StartTime).ToList()[i].StartTime <br />
+                                        @listes.FindAll(x => x.Day == "Pazartesi").OrderBy(x => x.StartTime).ToList()[i].EndTime
+                                    </th>
+                                }
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Pazartesi</th>
+                                @for (int i = 0; i < totalHors; i++)
+                                {
+                                    var item = listes.FindAll(x => x.Day == "Pazartesi").ToList()[i];
+                                    <td>@item.CoursesName</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th scope="row">Salı</th>
+                                @for (int i = 0; i < totalHors; i++)
+                                {
+                                    var item = listes.FindAll(x => x.Day == "Salı").ToList()[i];
+                                    <td>@item.CoursesName</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th scope="row">Çarşamba</th>
+                                @for (int i = 0; i < totalHors; i++)
+                                {
+                                    var item = listes.FindAll(x => x.Day == "Çarşamba").ToList()[i];
+                                    <td>@item.CoursesName</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th scope="row">Perşembe</th>
+                                @for (int i = 0; i < totalHors; i++)
+                                {
+                                    var item = listes.FindAll(x => x.Day == "Perşembe").ToList()[i];
+                                    <td>@item.CoursesName</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th scope="row">Cuma</th>
+                                @for (int i = 0; i < totalHors; i++)
+                                {
+                                    var item = listes.FindAll(x => x.Day == "Cuma").ToList()[i];
+                                    <td>@item.CoursesName</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
