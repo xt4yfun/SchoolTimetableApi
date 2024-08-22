@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Contents;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -25,7 +26,7 @@ namespace Business.Concrete
             _studentsDal = studentsDal;
             _classDal = classDal;
         }
-
+        [SecuredOperation("studentAdd")]
         public IResult Add(StudentsDto students)
         {
             if (!_classDal.GetAll(x=>x.ID==students.ClassID && x.Status!=DataStatus.Deleted).Any())
@@ -44,7 +45,7 @@ namespace Business.Concrete
             _studentsDal.Add(result);
             return new SuccessResult(Messages.StudentsAdded);
         }
-
+        [SecuredOperation("studentUpdate")]
         public IResult Update(StudentsDto students)
         {
             if (!_classDal.GetAll(x => x.ID != students.ClassID && x.Status != DataStatus.Deleted).Any())
@@ -67,7 +68,7 @@ namespace Business.Concrete
             _studentsDal.Update(select);
             return new SuccessResult(Messages.StudentsModified);
         }
-
+        [SecuredOperation("studentDelete")]
         public IResult Delete(int studentsID)
         {
 
@@ -92,7 +93,7 @@ namespace Business.Concrete
             _studentsDal.Update(select);
             return new SuccessResult(Messages.StudentsDelete);
         }
-
+        [SecuredOperation("studentDeleteClassAll")]
         public IResult DeleteClassAll(int classID)
         {
 
@@ -116,23 +117,22 @@ namespace Business.Concrete
 
             return new SuccessResult(Messages.StudentsClassAllDelete);
         }
-
-
+        [SecuredOperation("studentGetList")]
         public IDataResult<List<StudentsListDto>> GetAllList()
         {
             return new SuccessDataResult<List<StudentsListDto>>(_studentsDal.GetAllList());
         }
-
+        [SecuredOperation("studentGetList")]
         public IDataResult<List<StudentsListDto>> GetClassList(int classID)
         {
             return new SuccessDataResult<List<StudentsListDto>>(_studentsDal.GetClassList(classID));
         }
-
+        [SecuredOperation("studentGetList")]
         public IDataResult<List<Students>> GetByID(int studentsID)
         {
             return new SuccessDataResult<List<Students>>(_studentsDal.GetAll(x=>x.ID== studentsID));
         }
-
+        [SecuredOperation("studentGetDashboard")]
         public IDataResult<DashboardDto> GetDashboard()
         {
             return new SuccessDataResult<DashboardDto>(_studentsDal.GetDashboard());

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Contents;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -22,7 +23,7 @@ namespace Business.Concrete
         {
             _academicsDal = academicsDal;
         }
-
+        [SecuredOperation("academicAdd")]
         public IResult Add(AcademicsDto academics)
         {
             var result = new Academics
@@ -35,7 +36,7 @@ namespace Business.Concrete
             _academicsDal.Add(result);
             return new SuccessResult(Messages.AcademicAdded);
         }
-
+        [SecuredOperation("academicUpdate")]
         public IResult Update(AcademicsDto academics)
         {
             var result = new Academics
@@ -51,7 +52,7 @@ namespace Business.Concrete
             _academicsDal.Update(result);
             return new SuccessResult(Messages.AcademicModified);
         }
-
+        [SecuredOperation("academicDelete")]
         public IResult Delete(int academicsID)
         {
             var result=_academicsDal.Get(x => x.ID == academicsID && x.Status != DataStatus.Deleted);
@@ -74,11 +75,12 @@ namespace Business.Concrete
             _academicsDal.Update(selected);
             return new SuccessResult(Messages.AcademicDeleted);
         }
-
+        [SecuredOperation("academicGetAll")]
         public IDataResult<List<Academics>> GetAll()
         {
             return new SuccessDataResult<List<Academics>>(_academicsDal.GetAll(x=>x.Status!=DataStatus.Deleted));
         }
+        [SecuredOperation("academicGetById")]
         public IDataResult<Academics> GetById(int academicID)
         {
             return new SuccessDataResult<Academics>(_academicsDal.Get(x=>x.ID==academicID && x.Status!=DataStatus.Deleted));

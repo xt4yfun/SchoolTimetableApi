@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Contents;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -30,7 +31,7 @@ namespace Business.Concrete
             _courseService = courseService;
         }
 
-
+        [SecuredOperation("scheduleSettingUpdates")]
         public IResult Updates(ScheduleSettingDto scheduleSetting)
         {
             var courseClassList = _classcourseService.GetAll().Data;
@@ -68,17 +69,17 @@ namespace Business.Concrete
             _scheduleSettingDal.Update(result);
             return new SuccessResult(Messages.ScheduleSttingUpdated);
         }
-
+        [SecuredOperation("scheduleSettingGetAll")]
         public IDataResult<ScheduleSetting> GetBy()
         {
             return new SuccessDataResult<ScheduleSetting>(_scheduleSettingDal.GetAll(x => x.Status != DataStatus.Deleted).FirstOrDefault());
         }
-
+        [SecuredOperation("scheduleSettingGetAll")]
         public IDataResult<List<ScheduleSetting>> GetAll()
         {
             return new SuccessDataResult<List<ScheduleSetting>>(_scheduleSettingDal.GetAll());
         }
-
+        [SecuredOperation("scheduleSettingAdd")]
         public IResult Add(ScheduleSettingDto scheduleSetting)
         {
             var courseClassList = _classcourseService.GetAll().Data;

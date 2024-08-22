@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Contents;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -26,7 +27,7 @@ namespace Business.Concrete
             _coursesDal = coursesDal;
             _classDal = classDal;
         }
-
+        [SecuredOperation("classCourseAdd")]
         public IResult Add(ClassCourseDto classCourse)
         {
 
@@ -42,7 +43,7 @@ namespace Business.Concrete
             _classCourseDal.Add(result);
             return new SuccessResult(Messages.ClassCourseAdded);
         }
-
+        [SecuredOperation("classCourseAddAll")]
         public IResult AllClassCourse()
         {
             var courses = _coursesDal.GetAll(x => x.Status != DataStatus.Deleted);
@@ -66,7 +67,7 @@ namespace Business.Concrete
             }
             return new SuccessResult(Messages.AllClassCourse);
         }
-
+        [SecuredOperation("classCourseAddClassAll")]
         public IResult ClassAllAddCourse(int classID)
         {
             var courses = _coursesDal.GetAll(x => x.Status != DataStatus.Deleted);
@@ -85,7 +86,7 @@ namespace Business.Concrete
             }
             return new SuccessResult(Messages.ClassAllCourseAdded);
         }
-
+        [SecuredOperation("classCourseDeleted")]
         public IResult Deleted(int classCourseID)
         {
             var result = _classCourseDal.Get(x => x.ID == classCourseID && x.Status != DataStatus.Deleted);
@@ -100,15 +101,17 @@ namespace Business.Concrete
             _classCourseDal.Update(select);
             return new SuccessResult(Messages.ClassCourseDeleted);
         }
-
+        [SecuredOperation("classCourseGetAll")]
         public IDataResult<List<ClassCourse>> GetAll()
         {
             return new SuccessDataResult<List<ClassCourse>>(_classCourseDal.GetAll(x => x.Status != DataStatus.Deleted));
         }
+        [SecuredOperation("classCourseGetAll")]
         public IDataResult<List<CoursesClassListDto>> GetAllList()
         {
             return new SuccessDataResult<List<CoursesClassListDto>>(_classCourseDal.GetAllList());
         }
+        [SecuredOperation("classCourseGetAll")]
         public IDataResult<List<CoursesClassListDto>> GetAllClass(int classID)
         {
             return new SuccessDataResult<List<CoursesClassListDto>>(_classCourseDal.GetAllClass(classID));

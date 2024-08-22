@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Contents;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -25,7 +26,7 @@ namespace Business.Concrete
             _coursesDal = coursesDal;
             _classCourseDal = classCourseDal;
         }
-
+        [SecuredOperation("coursesAdd")]
         public IResult Add(CoursesDto courses)
         {
             var result = new Courses
@@ -36,7 +37,7 @@ namespace Business.Concrete
             _coursesDal.Add(result);
             return new SuccessResult(Messages.CoursesAdded);
         }
-
+        [SecuredOperation("coursesDelete")]
         public IResult Delete(int coursesID)
         {
             var result = _coursesDal.Get(x=>x.ID==coursesID&&x.Status!=DataStatus.Deleted);
@@ -57,8 +58,7 @@ namespace Business.Concrete
             _coursesDal.Update(select);
             return new SuccessResult(Messages.CoursesDeleted);
         }
-
-
+        [SecuredOperation("coursesUpdate")]
         public IResult Update(CoursesDto courses)
         {
             var result = _coursesDal.Get(x => x.ID == courses.ID && x.Status != DataStatus.Deleted);
@@ -73,12 +73,12 @@ namespace Business.Concrete
             _coursesDal.Update(select);
             return new SuccessResult(Messages.CoursesDeleted);
         }
-
+        [SecuredOperation("coursesGetAll")]
         public IDataResult<List<Courses>> GetAll()
         {
             return new SuccessDataResult<List<Courses>>(_coursesDal.GetAll(x => x.Status != DataStatus.Deleted));
         }
-
+        [SecuredOperation("coursesGetByID")]
         public IDataResult<Courses> GetByID(int ID)
         {
             return new SuccessDataResult<Courses>(_coursesDal.GetAll(x => x.ID == ID && x.Status != DataStatus.Deleted).FirstOrDefault());
