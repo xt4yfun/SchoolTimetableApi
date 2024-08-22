@@ -40,23 +40,11 @@ builder.Services.AddDependencyResolvers(new ICoreModule[]
     new CoreModule()
 });
 
-//-------------------
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder
-            .WithOrigins("http://localhost:3000") // Ýzin verilen origin adresini belirtin
-            .AllowAnyHeader() // Herhangi bir baþlýða izin ver
-            .AllowAnyMethod()); // Herhangi bir metoda (GET, POST, vs.) izin ver
-});
-
-
 // Add services to the container.
 
 builder.Services.AddControllers();
 
-//Autofuc
+//Autofac
 builder.Host
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>((container) =>
@@ -67,10 +55,19 @@ builder.Host
 //builder.Services.AddSingleton<IUrunService, UrunManager>();
 //builder.Services.AddSingleton<IUrunDal, EfUrunDal>();
 
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder
+            .WithOrigins("http://localhost:3000") // Frontend adresini buraya ekleyin
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()); // Çerezlerle birlikte gelen isteklere izin verir
+});
 
 var app = builder.Build();
 
@@ -81,8 +78,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// CORS Middleware'ini ekleyin
+
 app.UseCors("AllowSpecificOrigin");
+app.UseAuthentication();
+app.UseAuthorization();
+
+
 
 app.UseAuthentication();
 
