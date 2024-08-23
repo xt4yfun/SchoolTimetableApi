@@ -75,12 +75,12 @@ namespace Business.Concrete
             _academicsDal.Update(selected);
             return new SuccessResult(Messages.AcademicDeleted);
         }
-        [SecuredOperation("academicGetAll")]
+        [SecuredOperation("academicGet")]
         public IDataResult<List<Academics>> GetAll()
         {
             return new SuccessDataResult<List<Academics>>(_academicsDal.GetAll(x=>x.Status!=DataStatus.Deleted));
         }
-        [SecuredOperation("academicGetById")]
+        [SecuredOperation("academicGet")]
         public IDataResult<Academics> GetById(int academicID)
         {
             return new SuccessDataResult<Academics>(_academicsDal.Get(x=>x.ID==academicID && x.Status!=DataStatus.Deleted));

@@ -73,12 +73,12 @@ namespace Business.Concrete
             _coursesDal.Update(select);
             return new SuccessResult(Messages.CoursesDeleted);
         }
-        [SecuredOperation("coursesGetAll")]
+        [SecuredOperation("coursesList")]
         public IDataResult<List<Courses>> GetAll()
         {
             return new SuccessDataResult<List<Courses>>(_coursesDal.GetAll(x => x.Status != DataStatus.Deleted));
         }
-        [SecuredOperation("coursesGetByID")]
+        [SecuredOperation("coursesList")]
         public IDataResult<Courses> GetByID(int ID)
         {
             return new SuccessDataResult<Courses>(_coursesDal.GetAll(x => x.ID == ID && x.Status != DataStatus.Deleted).FirstOrDefault());

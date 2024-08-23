@@ -17,8 +17,8 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from role in context.Role
                              join KullaniciRol in context.UserRole
-                                 on role.ID equals KullaniciRol.RoleID
-                             where KullaniciRol.UserID == user.ID
+                                 on role.ID equals KullaniciRol.RoleId
+                             where KullaniciRol.UserId == user.ID
                              select new Role { ID = role.ID, RoleName = role.RoleName};
                 return result.ToList();
 

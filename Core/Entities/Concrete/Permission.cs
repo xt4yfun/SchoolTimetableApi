@@ -11,5 +11,6 @@ namespace Core.Entities.Concrete
     {
         public int ID { get; set; }
         public string PermissionName { get; set; }
+        public ICollection<PermissionRole> PermissionRoles { get; set; }
     }
 }
