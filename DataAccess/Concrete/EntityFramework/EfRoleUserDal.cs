@@ -14,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<RoleUserListeDto> GetAllList()
         {
-            using (var vt = new DataContext())
+            using (DataContext vt = new DataContext())
             {
                 var result = from ru in vt.UserRole
                              join r in vt.Role on
@@ -32,7 +32,7 @@ namespace DataAccess.Concrete.EntityFramework
 
         public RoleUserListeDto GetID(int ID)
         {
-            using (var vt = new DataContext())
+            using (DataContext vt = new DataContext())
             {
                 var result = from ru in vt.UserRole
                              join r in vt.Role on
@@ -46,6 +46,44 @@ namespace DataAccess.Concrete.EntityFramework
                                  UserName = u.LastName + " " + u.FirstName
                              };
                 return result.FirstOrDefault();
+            }
+        }
+
+        public List<RoleUserListeDto> GetRole(int roleID)
+        {
+            using (DataContext vt = new DataContext())
+            {
+                var result = from ru in vt.UserRole
+                             join r in vt.Role on
+                             ru.RoleId equals r.ID
+                             join u in vt.User on
+                             ru.UserId equals u.ID
+                             where ru.RoleId == roleID
+                             select new RoleUserListeDto
+                             {
+                                 RoleName = r.RoleName,
+                                 UserName = u.LastName + " " + u.FirstName
+                             };
+                return result.ToList();
+            }
+        }
+
+        public List<RoleUserListeDto> GetUser(int userID)
+        {
+            using (DataContext vt = new DataContext())
+            {
+                var result = from ru in vt.UserRole
+                             join r in vt.Role on
+                             ru.RoleId equals r.ID
+                             join u in vt.User on
+                             ru.UserId equals u.ID
+                             where ru.UserId == userID
+                             select new RoleUserListeDto
+                             {
+                                 RoleName = r.RoleName,
+                                 UserName = u.LastName + " " + u.FirstName
+                             };
+                return result.ToList();
             }
         }
     }

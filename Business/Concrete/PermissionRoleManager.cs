@@ -53,5 +53,15 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<PermissionRoleListDto>(_permRoleDal.GetID(ID));
         }
+
+        public IDataResult<List<PermissionRoleListDto>> GetPerm(int permId)
+        {
+            return new SuccessDataResult<List<PermissionRoleListDto>>(_permRoleDal.GetPerm(permId));
+        }
+
+        public IDataResult<List<PermissionRoleListDto>> GetRole(int roleId)
+        {
+            return new SuccessDataResult<List<PermissionRoleListDto>>(_permRoleDal.GetRole(roleId));
+        }
     }
 }

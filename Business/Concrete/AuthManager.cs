@@ -4,6 +4,7 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
+using DataAccess.Abstract;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,14 @@ namespace Business.Concrete
     {
         private IUserService _userService;
         private ITokenHelper _tokenHelper;
-
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public IRoleUserDal _roleUser;
+        public IRoleDal _role;
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, IRoleUserDal roleUser, IRoleDal role)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _roleUser = roleUser;
+            _role = role;
         }
 
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
@@ -38,7 +42,23 @@ namespace Business.Concrete
                 Active = true
             };
             _userService.Add(user);
+            AutoRol(user.ID);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
+        }
+
+        public void AutoRol(int userID)
+        {
+            var rol = _role.Get(x=>x.RoleName=="user");
+            if (rol == null)
+            {
+                return;
+            }
+            var result = new UserRole
+            {
+                RoleId = rol.ID,
+                UserId = userID
+            };
+            _roleUser.Add(result);
         }
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)

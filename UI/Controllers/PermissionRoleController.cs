@@ -45,7 +45,7 @@ namespace UI.Controllers
             var result = _permissionRoleService.GetAll();
             if (result.IsSuccess)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
             return BadRequest(result.Message);
         }
@@ -54,6 +54,28 @@ namespace UI.Controllers
         public IActionResult GetBy(int id)
         {
             var result = _permissionRoleService.GetByID(id);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("GetRole")]
+        public IActionResult GetRole(int id)
+        {
+            var result = _permissionRoleService.GetRole(id);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("GetPerm")]
+        public IActionResult GetPerm(int id)
+        {
+            var result = _permissionRoleService.GetPerm(id);
             if (result.IsSuccess)
             {
                 return Ok(result);

@@ -15,5 +15,7 @@ namespace Business.Abstract
         IResult Delete(int id);
         IDataResult<PermissionRoleListDto> GetByID(int ID);
         IDataResult<List<PermissionRoleListDto>> GetAll();
+        IDataResult<List<PermissionRoleListDto>> GetRole(int roleId);
+        IDataResult<List<PermissionRoleListDto>> GetPerm(int permId);
     }
 }

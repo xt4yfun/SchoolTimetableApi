@@ -8,13 +8,10 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IRoleUserService
+    public interface IRoleService
     {
-        IResult Add(RoleUserDto roleUserDto);
+        IResult Add(RoleDto roleDto);
+        IDataResult<List<RoleDto>> GetAll();
         IResult Delete(int ID);
-        IResult GetAll();
-        IResult GetUser(int userID);
-        IResult GetRole(int roleID);
-        IResult Get(int ID);
     }
 }

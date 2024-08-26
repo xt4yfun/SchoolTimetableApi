@@ -14,19 +14,18 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<PermissionRoleListDto> GetAllList()
         {
-            using (var vt = new DataContext())
+            using (DataContext vt = new DataContext())
             {
                 var result = from pr in vt.PermissionRol
                              join p in vt.Permission on
                              pr.PermissionId equals p.ID
                              join r in vt.Role on pr.RoleId
                              equals r.ID
-                             select
-                             new PermissionRoleListDto()
+                             select new PermissionRoleListDto
                              {
                                  ID = pr.ID,
                                  permissonName = p.PermissionName,
-                                 roleName = r.RoleName
+                                 roleName = r.RoleName,
                              };
                 return result.ToList();
             }
@@ -34,21 +33,60 @@ namespace DataAccess.Concrete.EntityFramework
 
         public PermissionRoleListDto GetID(int ID)
         {
-            using (var vt = new DataContext())
+            using (DataContext vt = new DataContext())
             {
                 var result = from pr in vt.PermissionRol
                              join p in vt.Permission on
                              pr.PermissionId equals p.ID
                              join r in vt.Role on pr.RoleId
                              equals r.ID where pr.ID==ID
-                             select
-                             new PermissionRoleListDto()
+                             select new PermissionRoleListDto
                              {
                                  ID = pr.ID,
                                  permissonName = p.PermissionName,
-                                 roleName = r.RoleName
+                                 roleName = r.RoleName,
                              };
                 return result.FirstOrDefault();
+            }
+        }
+
+        public List<PermissionRoleListDto> GetPerm(int permID)
+        {
+            using (DataContext vt = new DataContext())
+            {
+                var result = from pr in vt.PermissionRol
+                             join p in vt.Permission on
+                             pr.PermissionId equals p.ID
+                             join r in vt.Role on pr.RoleId
+                             equals r.ID
+                             where pr.PermissionId == permID
+                             select new PermissionRoleListDto
+                             {
+                                 ID = pr.ID,
+                                 permissonName = p.PermissionName,
+                                 roleName = r.RoleName,
+                             };
+                return result.ToList();
+            }
+        }
+
+        public List<PermissionRoleListDto> GetRole(int roleID)
+        {
+            using (DataContext vt = new DataContext())
+            {
+                var result = from pr in vt.PermissionRol
+                             join p in vt.Permission on
+                             pr.PermissionId equals p.ID
+                             join r in vt.Role on pr.RoleId
+                             equals r.ID
+                             where pr.RoleId == roleID
+                             select new PermissionRoleListDto
+                             {
+                                 ID = pr.ID,
+                                 permissonName = p.PermissionName,
+                                 roleName = r.RoleName,
+                             };
+                return result.ToList();
             }
         }
     }

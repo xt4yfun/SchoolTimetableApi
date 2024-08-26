@@ -55,5 +55,15 @@ namespace Business.Concrete
             var result = _roleUser.GetAllList();
             return new SuccessDataResult<List<RoleUserListeDto>>(result, "Rol kullanıcı listesi");
         }
+
+        public IResult GetRole(int roleID)
+        {
+            return new SuccessDataResult<List<RoleUserListeDto>>(_roleUser.GetRole(roleID));
+        }
+
+        public IResult GetUser(int userID)
+        {
+            return new SuccessDataResult<List<RoleUserListeDto>>(_roleUser.GetUser(userID));
+        }
     }
 }

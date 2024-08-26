@@ -55,6 +55,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<RoleUserManager>().As<IRoleUserService>().SingleInstance();
             builder.RegisterType<EfRoleUserDal>().As<IRoleUserDal>().SingleInstance();
 
+            builder.RegisterType<RoleManager>().As<IRoleService>().SingleInstance();
+            builder.RegisterType<EfRolDal>().As<IRoleDal>().SingleInstance();
+
 
 
 

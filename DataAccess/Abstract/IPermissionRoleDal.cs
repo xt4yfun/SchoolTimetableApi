@@ -14,5 +14,7 @@ namespace DataAccess.Abstract
    {
         List<PermissionRoleListDto> GetAllList();
         PermissionRoleListDto GetID(int ID);
+        List<PermissionRoleListDto> GetRole(int roleID);
+        List<PermissionRoleListDto> GetPerm(int permID);
     }
 }

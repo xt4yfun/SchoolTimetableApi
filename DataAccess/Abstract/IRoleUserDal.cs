@@ -13,5 +13,7 @@ namespace DataAccess.Abstract
     {
         List<RoleUserListeDto> GetAllList();
         RoleUserListeDto GetID(int ID);
+        List<RoleUserListeDto> GetRole(int roleID);
+        List<RoleUserListeDto> GetUser(int userID);
     }
 }

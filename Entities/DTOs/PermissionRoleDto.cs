@@ -9,8 +9,8 @@ namespace Entities.DTOs
 {
     public class PermissionRoleDto:IDto
     {
-        public int ID;
-        public int RoleID;
-        public int PermissonID;
+        public int ID {  get; set; }
+        public int RoleID { get; set; }
+        public int PermissonID { get; set; }
     }
 }

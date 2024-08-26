@@ -38,6 +38,28 @@ namespace UI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("GetUser")]
+        public IActionResult GetUser(int id)
+        {
+            var result = _roleUserService.GetUser(id);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("GetRole")]
+        public IActionResult GetRole(int id)
+        {
+            var result = _roleUserService.GetRole(id);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost]
         public IActionResult Add(RoleUserDto roleUserDto)
         {
