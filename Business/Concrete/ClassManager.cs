@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Contents;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -28,7 +29,7 @@ namespace Business.Concrete
             _studentsDal = studentsDal;
             _classCourseDal = classCourseDal;
         }
-
+        [SecuredOperation("classAdd")]
         public IResult Add(ClassDto nclass)
         {
             if (_classDal.GetAll(x=>x.ClassName.Equals(nclass.ClassName) && x.Status!=DataStatus.Deleted).Any())
@@ -43,7 +44,7 @@ namespace Business.Concrete
             _classDal.Add(result);
             return new SuccessResult(Messages.ClassAdded);
         }
-
+        [SecuredOperation("classDelete")]
         public IResult Delete(int classID)
         {
             var result = _classDal.Get(x => x.ID == classID && x.Status!=DataStatus.Deleted);
@@ -71,12 +72,12 @@ namespace Business.Concrete
             _classDal.Update(select);
             return new SuccessResult(Messages.ClassDeleted);
         }
-
+        [SecuredOperation("classGetAll")]
         public IDataResult<List<Class>> GetAll()
         {
             return new SuccessDataResult<List<Class>>(_classDal.GetAll(x => x.Status != DataStatus.Deleted));
         }
-
+        [SecuredOperation("classUpdate")]
         public IResult Update(ClassDto nclass)
         {
             var result = _classDal.Get(x => x.ID == nclass.ID && x.Status != DataStatus.Deleted);

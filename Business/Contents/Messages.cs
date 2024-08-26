@@ -11,7 +11,7 @@ namespace Business.Contents
     public static class Messages
     {
 
-        public static string AuthorizationDenied = "Yetkiniz yok";
+        public static string AuthorizationDenied = "Yetkiniz yok veya Hatalı işlem yaptınız";
 
         public static string UserRegistered = "Kullanici kayıtlı";
         public static string UserNotFound = "Kullanıcı bulunamadı";

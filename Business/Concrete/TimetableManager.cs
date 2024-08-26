@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Contents;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -34,7 +35,7 @@ namespace Business.Concrete
             _courseService = coursesService;
             _classcourseService = classCourseService;
         }
-
+        [SecuredOperation("timeTableAdd")]
         public IResult Add()
         {
             IResult result = BusinessRules.Run(AutoCreate());
@@ -178,7 +179,7 @@ namespace Business.Concrete
         }
 
 
-
+        [SecuredOperation("timeTableDelete")]
         public IResult DeleteAll()
         {
             var silList = _timetableDal.GetAll(x => x.Status != DataStatus.Deleted);
@@ -201,7 +202,7 @@ namespace Business.Concrete
 
             return new SuccessResult(Messages.TimetableAllDeleted);
         }
-
+        [SecuredOperation("timeTableDelete")]
         public IResult DeleteClass(int classID)
         {
             var deletedClassList = _classcourseService.GetAll(x => x.ClassID == classID && x.Status != DataStatus.Deleted);
@@ -236,16 +237,18 @@ namespace Business.Concrete
             return new SuccessDataResult<IResult>(Messages.timeTableClassDeleted);
         }
 
+
+        [SecuredOperation("timeTableGetList")]
         public IDataResult<List<TimetableDto>> GetAllList()
         {
             return new SuccessDataResult<List<TimetableDto>>(_timetableDal.GetAllList());
         }
-
+        [SecuredOperation("timeTableGetList")]
         public IDataResult<List<TimetableDto>> GetClassList(int classID)
         {
             return new SuccessDataResult<List<TimetableDto>>(_timetableDal.GetClassList(classID));
         }
-
+        [SecuredOperation("timeTableGetList")]
         public IDataResult<List<TimetableDto>> GetDayList(string day)
         {
             return new SuccessDataResult<List<TimetableDto>>(_timetableDal.GetDayList(day));
@@ -356,7 +359,7 @@ namespace Business.Concrete
 
             return new SuccessDataResult<IResult>();
         }
-
+        [SecuredOperation("timeTableAdd")]
         public IResult TimetableClassAdd(int classID)
         {
             IResult result = BusinessRules.Run(AutoClassCreate(classID));

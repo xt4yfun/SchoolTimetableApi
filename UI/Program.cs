@@ -1,7 +1,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Concrete;
+using Business.Contents;
 using Business.DependencyResolvers.Autofac;
 using Core.DependencyResolvers;
 using Core.Extensions;
@@ -11,13 +13,16 @@ using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Net;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
@@ -35,28 +40,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
     });
+
 builder.Services.AddDependencyResolvers(new ICoreModule[]
 {
     new CoreModule()
 });
 
-//-------------------
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder
-            .WithOrigins("http://localhost:3000") // Ýzin verilen origin adresini belirtin
-            .AllowAnyHeader() // Herhangi bir baþlýða izin ver
-            .AllowAnyMethod()); // Herhangi bir metoda (GET, POST, vs.) izin ver
-});
-
-
-// Add services to the container.
-
 builder.Services.AddControllers();
 
-//Autofuc
+// Autofac
 builder.Host
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>((container) =>
@@ -64,30 +56,69 @@ builder.Host
         container.RegisterModule(new AutofacBusinessModule());
     });
 
-//builder.Services.AddSingleton<IUrunService, UrunManager>();
-//builder.Services.AddSingleton<IUrunDal, EfUrunDal>();
+// Swagger konfigürasyonu
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Timetable", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder
+            .WithOrigins("http://localhost:3000") // Frontend adresini buraya ekleyin
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()); // Çerezlerle birlikte gelen isteklere izin verir
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Hata yakalama
+app.UseExceptionHandler(appBuilder =>
+{
+    appBuilder.Run(async context =>
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+
+        var result = JsonSerializer.Serialize(new { message = Messages.AuthorizationDenied });
+        await context.Response.WriteAsync(result);
+    });
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// CORS Middleware'ini ekleyin
 app.UseCors("AllowSpecificOrigin");
-
-app.UseAuthentication();
-
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

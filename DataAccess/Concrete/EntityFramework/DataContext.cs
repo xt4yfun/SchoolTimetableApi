@@ -33,5 +33,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<ClassCourse> ClassCourses { get; set; }
         public DbSet<ScheduleSetting> ScheduleSettings { get; set; }
         public DbSet<Timetable> Timetables { get; set; }
+        public DbSet<Permission> Permission { get; set; }
+        public DbSet<PermissionRole> PermissionRol { get; set; }
     }
 }

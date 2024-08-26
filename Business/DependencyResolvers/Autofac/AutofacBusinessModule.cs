@@ -47,6 +47,17 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<TimetableManager>().As<ITimetableService>().SingleInstance();
             builder.RegisterType<EfTimetableDal>().As<ITimetableDal>().SingleInstance();
 
+            builder.RegisterType<PermissionDal>().As<IPermissionDal>().SingleInstance();
+
+            builder.RegisterType<PermissionRoleManager>().As<IPermissionRoleService>().SingleInstance();
+            builder.RegisterType<EfPermissionRoleDal>().As<IPermissionRoleDal>().SingleInstance();
+
+            builder.RegisterType<RoleUserManager>().As<IRoleUserService>().SingleInstance();
+            builder.RegisterType<EfRoleUserDal>().As<IRoleUserDal>().SingleInstance();
+
+            builder.RegisterType<RoleManager>().As<IRoleService>().SingleInstance();
+            builder.RegisterType<EfRolDal>().As<IRoleDal>().SingleInstance();
+
 
 
 
