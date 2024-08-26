@@ -49,6 +49,12 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<PermissionDal>().As<IPermissionDal>().SingleInstance();
 
+            builder.RegisterType<PermissionRoleManager>().As<IPermissionRoleService>().SingleInstance();
+            builder.RegisterType<EfPermissionRoleDal>().As<IPermissionRoleDal>().SingleInstance();
+
+            builder.RegisterType<RoleUserManager>().As<IRoleUserService>().SingleInstance();
+            builder.RegisterType<EfRoleUserDal>().As<IRoleUserDal>().SingleInstance();
+
 
 
 
