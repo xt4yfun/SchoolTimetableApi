@@ -23,14 +23,15 @@ namespace DataAccess.Concrete.EntityFramework
                              ru.UserId equals u.ID
                              select new RoleUserListeDto
                              {
-                                 RoleName = r.RoleName,
-                                 UserName = u.LastName + " " + u.FirstName
+                                 ID = ru.ID,
+                                 roleID = r.ID,
+                                 userID = u.ID
                              };
                 return result.ToList();
             }
         }
 
-        public RoleUserListeDto GetID(int ID)
+        public RoleUserListeDto GetID(int rolId, int userId)
         {
             using (DataContext vt = new DataContext())
             {
@@ -39,11 +40,13 @@ namespace DataAccess.Concrete.EntityFramework
                              ru.RoleId equals r.ID
                              join u in vt.User on
                              ru.UserId equals u.ID
-                             where ru.ID == ID
+                             where ru.RoleId == rolId
+                             where ru.UserId == userId
                              select new RoleUserListeDto
                              {
-                                 RoleName = r.RoleName,
-                                 UserName = u.LastName + " " + u.FirstName
+                                 ID = ru.ID,
+                                 roleID = r.ID,
+                                 userID = u.ID
                              };
                 return result.FirstOrDefault();
             }
@@ -61,8 +64,9 @@ namespace DataAccess.Concrete.EntityFramework
                              where ru.RoleId == roleID
                              select new RoleUserListeDto
                              {
-                                 RoleName = r.RoleName,
-                                 UserName = u.LastName + " " + u.FirstName
+                                 ID = ru.ID,
+                                 roleID = r.ID,
+                                 userID = u.ID
                              };
                 return result.ToList();
             }
@@ -80,8 +84,9 @@ namespace DataAccess.Concrete.EntityFramework
                              where ru.UserId == userID
                              select new RoleUserListeDto
                              {
-                                 RoleName = r.RoleName,
-                                 UserName = u.LastName + " " + u.FirstName
+                                 ID = ru.ID,
+                                 roleID = r.ID,
+                                 userID = u.ID
                              };
                 return result.ToList();
             }

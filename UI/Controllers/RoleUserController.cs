@@ -28,9 +28,9 @@ namespace UI.Controllers
         }
 
         [HttpGet("Get")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int rolId,int userId)
         {
-            var result = _roleUserService.Get(id);
+            var result = _roleUserService.Get(rolId, userId);
             if (result.IsSuccess)
             {
                 return Ok(result);

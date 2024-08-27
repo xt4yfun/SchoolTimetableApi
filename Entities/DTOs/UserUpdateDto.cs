@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class RoleUserListeDto:IDto
+    public class UserUpdateDto:IDto
     {
         public int ID { get; set; }
-        public int roleID { get; set; }
-        public int userID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }

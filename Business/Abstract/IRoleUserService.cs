@@ -15,6 +15,6 @@ namespace Business.Abstract
         IResult GetAll();
         IResult GetUser(int userID);
         IResult GetRole(int roleID);
-        IResult Get(int ID);
+        IResult Get(int rolId,int userId);
     }
 }

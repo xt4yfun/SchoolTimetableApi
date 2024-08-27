@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class RoleUserListeDto:IDto
+    public class PermissonListDto:IDto
     {
         public int ID { get; set; }
-        public int roleID { get; set; }
-        public int userID { get; set; }
+        public string Name { get; set; }
     }
 }

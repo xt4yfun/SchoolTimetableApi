@@ -13,7 +13,7 @@ namespace DataAccess.Abstract
     public interface IPermissionRoleDal: IEntityRepository<PermissionRole>
    {
         List<PermissionRoleListDto> GetAllList();
-        PermissionRoleListDto GetID(int ID);
+        PermissionRoleListDto GetID(int rolId,int permId);
         List<PermissionRoleListDto> GetRole(int roleID);
         List<PermissionRoleListDto> GetPerm(int permID);
     }

@@ -24,14 +24,14 @@ namespace DataAccess.Concrete.EntityFramework
                              select new PermissionRoleListDto
                              {
                                  ID = pr.ID,
-                                 permissonName = p.PermissionName,
-                                 roleName = r.RoleName,
+                                 permissonId = p.ID,
+                                 roleId = r.ID,
                              };
                 return result.ToList();
             }
         }
 
-        public PermissionRoleListDto GetID(int ID)
+        public PermissionRoleListDto GetID(int rolId, int permId)
         {
             using (DataContext vt = new DataContext())
             {
@@ -39,12 +39,13 @@ namespace DataAccess.Concrete.EntityFramework
                              join p in vt.Permission on
                              pr.PermissionId equals p.ID
                              join r in vt.Role on pr.RoleId
-                             equals r.ID where pr.ID==ID
+                             equals r.ID where r.ID== rolId 
+                             where p.ID== permId
                              select new PermissionRoleListDto
                              {
                                  ID = pr.ID,
-                                 permissonName = p.PermissionName,
-                                 roleName = r.RoleName,
+                                 permissonId = p.ID,
+                                 roleId = r.ID,
                              };
                 return result.FirstOrDefault();
             }
@@ -63,8 +64,8 @@ namespace DataAccess.Concrete.EntityFramework
                              select new PermissionRoleListDto
                              {
                                  ID = pr.ID,
-                                 permissonName = p.PermissionName,
-                                 roleName = r.RoleName,
+                                 permissonId = p.ID,
+                                 roleId = r.ID,
                              };
                 return result.ToList();
             }
@@ -83,8 +84,8 @@ namespace DataAccess.Concrete.EntityFramework
                              select new PermissionRoleListDto
                              {
                                  ID = pr.ID,
-                                 permissonName = p.PermissionName,
-                                 roleName = r.RoleName,
+                                 permissonId = p.ID,
+                                 roleId = r.ID,
                              };
                 return result.ToList();
             }

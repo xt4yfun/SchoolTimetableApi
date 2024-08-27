@@ -1,4 +1,5 @@
-﻿using Core.Entities.Concrete;
+﻿using Core.DataAccess.EntityFramework;
+using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class PermissionDal : IPermissionDal
+    public class PermissionDal : EfEntityRepositoryBase<Permission, DataContext>, IPermissionDal
     {
         public bool HasPermission(List<string> roles, string permissionName)
         {

@@ -81,5 +81,17 @@ namespace Business.Contents
         public static string NotInput = "Gönderilen değer alınamadı";
 
         public static string ClassCourseFind = "Zaten atanmış bir ders";
+
+        public static string UserDeleted = "Kullanıcı silindi";
+        public static string UserNotDeleted = "Kullancı silinirken hata oluştu";
+        public static string RoleAdd = "Rol ekleme işlemi başarılı";
+        public static string RoleDelete = "Rol silme işlemi başarılı";
+        public static string permRolAdd = "Rolden izin ayarı eklendi";
+        public static string permRolDelete = "Rolden izin silindi";
+        public static string roleUserNotDelete = "Kullanıcıdan Rol silinemedi";
+        public static string roleUserAdd = "Kullanıcıya rol eklendi";
+        public static string roleUserDelete = "Kullanıcıdan rol silindi";
+
+        public static string userUpdate = "Kullanıcı güncelleme işlemi başarılı";
     }
 }
