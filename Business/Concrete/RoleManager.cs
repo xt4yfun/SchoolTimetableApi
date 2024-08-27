@@ -29,14 +29,14 @@ namespace Business.Concrete
                 RoleName=roleDto.RolName
             };
             _role.Add(result);
-            return new SuccessResult(Messages.CoursesAdded);
+            return new SuccessResult(Messages.RoleAdd);
         }
         [SecuredOperation("roleDelete")]
         public IResult Delete(int ID)
         {
             var result = _role.Get(x => x.ID == ID);
             _role.Delete(result);
-            return new SuccessResult(Messages.CoursesAdded);
+            return new SuccessResult(Messages.RoleDelete);
         }
         [SecuredOperation("roleGet")]
         public IDataResult<List<RoleDto>> GetAll()

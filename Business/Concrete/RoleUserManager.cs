@@ -30,7 +30,7 @@ namespace Business.Concrete
                 UserId = roleUserDto.userID,
             };
             _roleUser.Add(result);
-            return new SuccessResult(Messages.CoursesAdded);
+            return new SuccessResult(Messages.roleUserAdd);
         }
         [SecuredOperation("roleUserDelete")]
         public IResult Delete(int ID)
@@ -38,15 +38,15 @@ namespace Business.Concrete
             var result=_roleUser.Get(x=>x.ID==ID);
             if (result==null)
             {
-                return new ErrorResult(Messages.CoursesAdded);
+                return new ErrorResult(Messages.roleUserNotDelete);
             }
             _roleUser.Delete(result);
-            return new SuccessResult(Messages.CoursesAdded);
+            return new SuccessResult(Messages.roleUserDelete);
         }
         [SecuredOperation("roleUserGet")]
-        public IResult Get(int ID)
+        public IResult Get(int rolId, int userId)
         {
-            var result = _roleUser.GetID(ID);
+            var result = _roleUser.GetID(rolId, userId);
             return new SuccessDataResult<RoleUserListeDto>(result, "Rol kullanıcı bilgisi");
         }
         [SecuredOperation("roleUserGet")]
@@ -55,12 +55,12 @@ namespace Business.Concrete
             var result = _roleUser.GetAllList();
             return new SuccessDataResult<List<RoleUserListeDto>>(result, "Rol kullanıcı listesi");
         }
-
+        [SecuredOperation("roleUserGet")]
         public IResult GetRole(int roleID)
         {
             return new SuccessDataResult<List<RoleUserListeDto>>(_roleUser.GetRole(roleID));
         }
-
+        [SecuredOperation("roleUserGet")]
         public IResult GetUser(int userID)
         {
             return new SuccessDataResult<List<RoleUserListeDto>>(_roleUser.GetUser(userID));

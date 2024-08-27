@@ -10,7 +10,7 @@ namespace Entities.DTOs
     public class PermissionRoleListDto : IDto
     {
         public int ID { get; set; }
-        public string roleName { get; set; }
-        public string permissonName { get; set; }
+        public int roleId { get; set; }
+        public int permissonId { get; set; }
     }
 }

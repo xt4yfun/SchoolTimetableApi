@@ -98,17 +98,17 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Hata yakalama
-app.UseExceptionHandler(appBuilder =>
-{
-    appBuilder.Run(async context =>
-    {
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+//app.UseExceptionHandler(appBuilder =>
+//{
+//    appBuilder.Run(async context =>
+//    {
+//        context.Response.ContentType = "application/json";
+//        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
 
-        var result = JsonSerializer.Serialize(new { message = Messages.AuthorizationDenied });
-        await context.Response.WriteAsync(result);
-    });
-});
+//        var result = JsonSerializer.Serialize(new { message = Messages.AuthorizationDenied });
+//        await context.Response.WriteAsync(result);
+//    });
+//});
 
 if (app.Environment.IsDevelopment())
 {

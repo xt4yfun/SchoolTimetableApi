@@ -51,9 +51,9 @@ namespace UI.Controllers
         }
 
         [HttpGet("Get")]
-        public IActionResult GetBy(int id)
+        public IActionResult GetBy(int rolId,int permId)
         {
-            var result = _permissionRoleService.GetByID(id);
+            var result = _permissionRoleService.GetByID(rolId,permId);
             if (result.IsSuccess)
             {
                 return Ok(result);

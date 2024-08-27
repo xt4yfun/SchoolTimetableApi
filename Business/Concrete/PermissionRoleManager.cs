@@ -30,18 +30,14 @@ namespace Business.Concrete
                 RoleId= permissionRole.RoleID
             };
             _permRoleDal.Add(result);
-            return new SuccessResult(Messages.CoursesAdded);
+            return new SuccessResult(Messages.permRolAdd);
         }
         [SecuredOperation("permissionRolDelete")]
         public IResult Delete(int id)
         {
-            var result = _permRoleDal.Get(x=>x.ID==id);
-            if (result==null)
-            {
-                return new ErrorResult(Messages.CoursesAdded);
-            }
+            var result = _permRoleDal.Get(x=>x.ID== id);
             _permRoleDal.Delete(result);
-            return new SuccessResult(Messages.CoursesAdded);
+            return new SuccessResult(Messages.permRolDelete);
         }
         [SecuredOperation("permissionRolGet")]
         public IDataResult<List<PermissionRoleListDto>> GetAll()
@@ -49,16 +45,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<PermissionRoleListDto>>(_permRoleDal.GetAllList());
         }
         [SecuredOperation("permissionRolGet")]
-        public IDataResult<PermissionRoleListDto> GetByID(int ID)
+        public IDataResult<PermissionRoleListDto> GetByID(int rolID,int permId)
         {
-            return new SuccessDataResult<PermissionRoleListDto>(_permRoleDal.GetID(ID));
+            return new SuccessDataResult<PermissionRoleListDto>(_permRoleDal.GetID(rolID,permId));
         }
-
+        [SecuredOperation("permissionRolGet")]
         public IDataResult<List<PermissionRoleListDto>> GetPerm(int permId)
         {
             return new SuccessDataResult<List<PermissionRoleListDto>>(_permRoleDal.GetPerm(permId));
         }
-
+        [SecuredOperation("permissionRolGet")]
         public IDataResult<List<PermissionRoleListDto>> GetRole(int roleId)
         {
             return new SuccessDataResult<List<PermissionRoleListDto>>(_permRoleDal.GetRole(roleId));
