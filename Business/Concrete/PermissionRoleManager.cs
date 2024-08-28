@@ -54,7 +54,6 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<PermissionRoleListDto>>(_permRoleDal.GetPerm(permId));
         }
-        [SecuredOperation("permissionRolGet")]
         public IDataResult<List<PermissionRoleListDto>> GetRole(int roleId)
         {
             return new SuccessDataResult<List<PermissionRoleListDto>>(_permRoleDal.GetRole(roleId));

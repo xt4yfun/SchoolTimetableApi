@@ -27,6 +27,17 @@ namespace UI.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("getName")]
+        public IActionResult getName(string name)
+        {
+            var result=_roleService.GetNameId(name);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpPost]
         public IActionResult Add(RoleDto roleDto)
         {

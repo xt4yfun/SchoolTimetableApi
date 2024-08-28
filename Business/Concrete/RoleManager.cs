@@ -50,5 +50,10 @@ namespace Business.Concrete
                     };
             return new SuccessDataResult<List<RoleDto>>(s.ToList());
         }
+
+        public IDataResult<Role> GetNameId(string rolName)
+        {
+            return new SuccessDataResult<Role>(_role.Get(x => x.RoleName == rolName));
+        }
     }
 }
