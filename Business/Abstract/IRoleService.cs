@@ -1,4 +1,5 @@
-﻿using Core.Utilities.Results;
+﻿using Core.Entities.Concrete;
+using Core.Utilities.Results;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace Business.Abstract
         IResult Add(RoleDto roleDto);
         IDataResult<List<RoleDto>> GetAll();
         IResult Delete(int ID);
+        public IDataResult<Role> GetNameId(string rolName);
     }
 }
